@@ -70,7 +70,7 @@ sam --version
 10. Once the server is installed, run `http-server frontend --port=8080` from the project root and visit http://localhost:8080
 
 ## WEB Page
-![WEB Page](../../Documents/search-replacer/search-replace-web.png)
+![WEB Page](search-replace-web.png)
 
 
 ## Important Links
