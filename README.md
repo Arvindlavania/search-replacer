@@ -57,7 +57,7 @@ sam --version
 
 4. Create iam user and configure aws cli with `aws configure`
 
-5. Please clone the source code and IDE
+5. Please clone the source code in IDE
 
 6. To build app, use sam build
 
