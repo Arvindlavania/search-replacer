@@ -36,6 +36,7 @@ I am designing this in AWS Cloud. Below Tech i will use to solve this problem.
 5. AWS Lambda
 6. NPM Webserver (opensource)
 7. Python 3.9
+8. AWS S3
 
 ## Architecture
 ![Search Replace arrchitecture with aws api gateway and lambda function](SearchReplaceArchitecture.drawio.png "Search Replace arrchitecture")
@@ -65,9 +66,11 @@ sam --version
 
 8. to deploy run `sam build && sam deploy` (if for the first time, run sam deploy --guided)
 
-9. For frontend, you have to setup a local http server with this `npm install --global http-server` (refer https://www.npmjs.com/package/http-server)
+9. update the index.html with latest API endpoint URL
 
-10. Once the server is installed, run `http-server frontend --port=8080` from the project root and visit http://localhost:8080
+10. For frontend, you have to setup a local http server with this `npm install --global http-server` (refer https://www.npmjs.com/package/http-server)
+
+11. Once the server is installed, run `http-server frontend --port=8080` from the project root and visit http://localhost:8080
 
 ## WEB Page
 ![WEB Page](search-replace-web.png)
