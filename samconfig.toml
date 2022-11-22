@@ -1,0 +1,11 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "search-replacer"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-by7tpsa4dlp6"
+s3_prefix = "search-replacer"
+region = "us-east-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+image_repositories = []

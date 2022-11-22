@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Search Replacer</title>
+</head>
+
+<body>
+    <div>
+        <h1 class="pt-4 mb-4 text-center font-bold text-4xl">Search Replacer</h1>
+
+        <form action="POST" id="search_replace_form">
+            <div class="container mx-auto bg-cyan-100 p-4 w-full rounded">
+                <div id="error_resp"
+                    class="hidden border border-red-500 bg-red-300 text-white text-sm rounded-lg focus:outline-none focus:ring focus:ring-gray-300 block w-full p-2.5">
+                </div>
+
+                <div class="mb-6">
+                    <label for="target" class="block mb-2 text-xl font-medium text-gray-900">Target String</label>
+                    <input name="target" type="text" id="target"
+                        class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring focus:ring-gray-300 block w-full p-2.5">
+                    <div data-input-errors="target" class="hidden block mb-2 text-sm font-medium text-red-500"></div>
+                </div>
+
+                <div class="mb-6">
+                    <label for="output" class="block mb-2 text-xl font-medium text-gray-900">Output String</label>
+                    <input name="output" disabled type="text" id="output"
+                        class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring focus:ring-gray-300 block w-full p-2.5">
+                </div>
+
+                <div class="flex items-center mb-4">
+                    <input name="custom" id="custom" type="checkbox" value=""
+                        class="w-4 h-4 text-gray-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600">
+                    <label for="custom" class="ml-2 text-sm font-medium text-gray-900">Custom search and replace
+                        text</label>
+                </div>
+
+                <div id="custom_search_replace" class="hidden">
+                    <div class="mb-6">
+                        <label for="custom_search_term" class="block mb-2 text-xl font-medium text-gray-900">Search
+                            Term</label>
+                        <input name="custom_search_term" type="text" id="target"
+                            class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring focus:ring-gray-300 block w-full p-2.5">
+                        <div data-input-errors="custom_search_term"
+                            class="hidden block mb-2 text-sm font-medium text-red-500"></div>
+
+                    </div>
+                    <div class="mb-6">
+                        <label for="custom_replace_term" class="block mb-2 text-xl font-medium text-gray-900">Replace
+                            Term</label>
+                        <input name="custom_replace_term" type="text" id="custom_replace_term"
+                            class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring focus:ring-gray-300 block w-full p-2.5">
+                        <div data-input-errors="custom_replace_term" data-input="custom_search_term"
+                            class="block mb-2 text-sm font-medium text-red-500"></div>
+
+                    </div>
+                </div>
+
+                <button
+                    class="border text-gray-300 bg-gray-900 text-xl rounded-lg focus:outline-none focus:ring focus:ring-gray-300 block p-2.5">Replace</button>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        // Aws lambda search replace api
+        window.searchReplaceApi = 'https://30s11ci690.execute-api.us-east-1.amazonaws.com/search-replace';
+
+        // Utility functions to show output, show errors and reset errors
+        window.showOutput = (output) => {
+            document.querySelector('[name="output"]').value = output
+        }
+
+        window.showError = (msg) => {
+            const errorDiv = document.querySelector('#error_resp')
+            errorDiv.classList.remove('hidden')
+            errorDiv.innerHTML = msg
+        }
+
+        window.showFieldError = (field, msg) => {
+            const inputErrorDiv = document.querySelector(`[data-input-errors="${field}"]`)
+            inputErrorDiv.classList.remove('hidden')
+            inputErrorDiv.innerHTML = msg
+        }
+
+        window.resetErrors = () => {
+            const errorDiv = document.querySelector('#error_resp')
+            errorDiv.classList.add('hidden')
+            errorDiv.innerHTML = ''
+
+            document.querySelectorAll('[data-input-errors]').forEach(e => {
+                e.innerHTML = ''
+                e.classList.add('hidden')
+            })
+        }
+
+        // Toggle custom search replace on checkbox toggle
+        document.querySelector('[name="custom"]').addEventListener('change', e => {
+            if (e.target.checked) {
+                document.querySelector('#custom_search_replace').classList.remove('hidden')
+            } else {
+                document.querySelector('#custom_search_replace').classList.add('hidden')
+
+            }
+        })
+
+        // Api call to fetch search replaced string
+        document.querySelector('#search_replace_form')?.addEventListener('submit', e => {
+            e.preventDefault();
+
+            let target = document.querySelector('[name="target"]')?.value || null;
+            let custom = document.querySelector('[name="custom"]')?.checked;
+            let customSearchTerm = document.querySelector('[name="custom_search_term"]')?.value || null;
+            let customReplaceTerm = document.querySelector('[name="custom_replace_term"]')?.value || null;
+
+            const jsonBody = { target, custom, customSearchTerm, customReplaceTerm }
+
+            fetch(window.searchReplaceApi, {
+                method: "POST",
+                body: JSON.stringify(jsonBody),
+                headers: {
+                    'content-type': 'application/json'
+                }
+            })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.status == 'error') {
+                        showError(res?.message)
+                        if(res.fieldErrors) Object.entries(res.fieldErrors).forEach(([key, err]) => showFieldError(key, err))
+                    } else {
+                        showOutput(res?.response?.replacedString)
+                        resetErrors()
+                    }
+                })
+
+            console.log(jsonBody)
+        })
+
+    </script>
+</body>
+
+</html>

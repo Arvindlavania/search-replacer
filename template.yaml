@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  search-replacer
+
+  Sample SAM Template for search-replacer
+
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  # Http Api to allow cors config
+  LambdaApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      CorsConfiguration:
+        AllowOrigins:
+          - "*"
+        AllowHeaders:
+          - "*"
+        AllowMethods:
+          - "*"
+        MaxAge: 3600
+
+  SearchReplace:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: search_replacer/
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Architectures:
+        - x86_64
+      Events:
+        SearchReplaceApi:
+          Type: HttpApi
+          Properties:
+            Path: /search-replace
+            Method: post
+            ApiId: !Ref LambdaApi
+
+Outputs:
+  SearchReplace:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${LambdaApi}.execute-api.${AWS::Region}.amazonaws.com/search-replace/"

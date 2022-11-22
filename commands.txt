@@ -1,0 +1,159 @@
+arvindlavania@Arvinds-iMac search-replacer % sam build
+Building codeuri: /Users/arvindlavania/Downloads/search-replacer/search_replacer runtime: python3.9 metadata: {} architecture: x86_64 functions: SearchReplace
+requirements.txt file not found. Continuing the build without dependencies.
+Running PythonPipBuilder:CopySource
+
+Build Succeeded
+
+Built Artifacts  : .aws-sam/build
+Built Template   : .aws-sam/build/template.yaml
+
+Commands you can use next
+=========================
+[*] Validate SAM template: sam validate
+[*] Invoke Function: sam local invoke
+[*] Test Function in the Cloud: sam sync --stack-name {{stack-name}} --watch
+[*] Deploy: sam deploy --guided
+arvindlavania@Arvinds-iMac search-replacer % sam deploy --guided
+
+Configuring SAM deploy
+======================
+
+        Looking for config file [samconfig.toml] :  Found
+        Reading default arguments  :  Success
+
+        Setting default arguments for 'sam deploy'
+        =========================================
+        Stack Name [search-replacer]:
+        AWS Region [us-east-1]:
+        #Shows you resources changes to be deployed and require a 'Y' to initiate deploy
+        Confirm changes before deploy [Y/n]:
+        #SAM needs permission to be able to create roles to connect to the resources in your template
+        Allow SAM CLI IAM role creation [Y/n]:
+        #Preserves the state of previously provisioned resources when an operation fails
+        Disable rollback [y/N]:
+        SearchReplace may not have authorization defined, Is this okay? [y/N]:
+Error: Security Constraints Not Satisfied!
+arvindlavania@Arvinds-iMac search-replacer % sam deploy --guided
+
+Configuring SAM deploy
+======================
+
+        Looking for config file [samconfig.toml] :  Found
+        Reading default arguments  :  Success
+
+        Setting default arguments for 'sam deploy'
+        =========================================
+        Stack Name [search-replacer]:
+        AWS Region [us-east-1]:
+        #Shows you resources changes to be deployed and require a 'Y' to initiate deploy
+        Confirm changes before deploy [Y/n]:
+        #SAM needs permission to be able to create roles to connect to the resources in your template
+        Allow SAM CLI IAM role creation [Y/n]:
+        #Preserves the state of previously provisioned resources when an operation fails
+        Disable rollback [y/N]:
+        SearchReplace may not have authorization defined, Is this okay? [y/N]: y
+        Save arguments to configuration file [Y/n]:
+        SAM configuration file [samconfig.toml]:
+        SAM configuration environment [default]:
+
+        Looking for resources needed for deployment:
+         Managed S3 bucket: aws-sam-cli-managed-default-samclisourcebucket-by7tpsa4dlp6
+         A different default S3 bucket can be set in samconfig.toml
+
+        Saved arguments to config file
+        Running 'sam deploy' for future deployments will use the parameters saved above.
+        The above parameters can be changed by modifying samconfig.toml
+        Learn more about samconfig.toml syntax at
+        https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-config.html
+
+Uploading to search-replacer/aa80a32757497e463c1fd2dcf558dc07  878 / 878  (100.00%)
+
+        Deploying with following values
+        ===============================
+        Stack name                   : search-replacer
+        Region                       : us-east-1
+        Confirm changeset            : True
+        Disable rollback             : False
+        Deployment s3 bucket         : aws-sam-cli-managed-default-samclisourcebucket-by7tpsa4dlp6
+        Capabilities                 : ["CAPABILITY_IAM"]
+        Parameter overrides          : {}
+        Signing Profiles             : {}
+
+Initiating deployment
+=====================
+Uploading to search-replacer/67b9033a64660af8071826dd5b312eea.template  1212 / 1212  (100.00%)
+
+Waiting for changeset to be created..
+CloudFormation stack changeset
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Operation                                                           LogicalResourceId                                                   ResourceType                                                        Replacement
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
++ Add                                                               LambdaApiApiGatewayDefaultStage                                     AWS::ApiGatewayV2::Stage                                            N/A
++ Add                                                               LambdaApi                                                           AWS::ApiGatewayV2::Api                                              N/A
++ Add                                                               SearchReplaceRole                                                   AWS::IAM::Role                                                      N/A
++ Add                                                               SearchReplaceSearchReplaceApiPermission                             AWS::Lambda::Permission                                             N/A
++ Add                                                               SearchReplace                                                       AWS::Lambda::Function                                               N/A
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Changeset created successfully. arn:aws:cloudformation:us-east-1:793605376367:changeSet/samcli-deploy1669106409/5455235a-e929-4231-accb-10ef71e1098e
+
+
+Previewing CloudFormation changeset before deployment
+======================================================
+Deploy this changeset? [y/N]: y
+
+2022-11-22 14:10:26 - Waiting for stack create/update to complete
+
+CloudFormation events from stack operations (refresh every 0.5 seconds)
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ResourceStatus                                                      ResourceType                                                        LogicalResourceId                                                   ResourceStatusReason
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE_IN_PROGRESS                                                  AWS::CloudFormation::Stack                                          search-replacer                                                     User Initiated
+CREATE_IN_PROGRESS                                                  AWS::IAM::Role                                                      SearchReplaceRole                                                   -
+CREATE_IN_PROGRESS                                                  AWS::IAM::Role                                                      SearchReplaceRole                                                   Resource creation Initiated
+CREATE_COMPLETE                                                     AWS::IAM::Role                                                      SearchReplaceRole                                                   -
+CREATE_IN_PROGRESS                                                  AWS::Lambda::Function                                               SearchReplace                                                       -
+CREATE_IN_PROGRESS                                                  AWS::Lambda::Function                                               SearchReplace                                                       Resource creation Initiated
+CREATE_COMPLETE                                                     AWS::Lambda::Function                                               SearchReplace                                                       -
+CREATE_IN_PROGRESS                                                  AWS::ApiGatewayV2::Api                                              LambdaApi                                                           -
+CREATE_IN_PROGRESS                                                  AWS::ApiGatewayV2::Api                                              LambdaApi                                                           Resource creation Initiated
+CREATE_COMPLETE                                                     AWS::ApiGatewayV2::Api                                              LambdaApi                                                           -
+CREATE_IN_PROGRESS                                                  AWS::ApiGatewayV2::Stage                                            LambdaApiApiGatewayDefaultStage                                     -
+CREATE_IN_PROGRESS                                                  AWS::Lambda::Permission                                             SearchReplaceSearchReplaceApiPermission                             -
+CREATE_IN_PROGRESS                                                  AWS::Lambda::Permission                                             SearchReplaceSearchReplaceApiPermission                             Resource creation Initiated
+CREATE_IN_PROGRESS                                                  AWS::ApiGatewayV2::Stage                                            LambdaApiApiGatewayDefaultStage                                     Resource creation Initiated
+CREATE_COMPLETE                                                     AWS::ApiGatewayV2::Stage                                            LambdaApiApiGatewayDefaultStage                                     -
+CREATE_COMPLETE                                                     AWS::Lambda::Permission                                             SearchReplaceSearchReplaceApiPermission                             -
+CREATE_COMPLETE                                                     AWS::CloudFormation::Stack                                          search-replacer                                                     -
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CloudFormation outputs from deployed stack
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Outputs
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Key                 SearchReplace
+Description         API Gateway endpoint URL for Prod stage for Hello World function
+Value               https://0bcqni50mg.execute-api.us-east-1.amazonaws.com/search-replace/
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Successfully created/updated stack - search-replacer in us-east-1
+
+arvindlavania@Arvinds-iMac search-replacer % http-server frontend --port=8080
+Starting up http-server, serving frontend
+
+http-server version: 14.1.1
+
+http-server settings:
+CORS: disabled
+Cache: 3600 seconds
+Connection Timeout: 120 seconds
+Directory Listings: visible
+AutoIndex: visible
+Serve GZIP Files: false
+Serve Brotli Files: false
+Default File Extension: none
+
+Available on:
+  http://127.0.0.1:8080
+  http://192.168.1.20:8080
+Hit CTRL-C to stop the server
